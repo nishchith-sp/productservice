@@ -1,10 +1,8 @@
 package com.nishchith.productservice.repositories;
 
 import com.nishchith.productservice.models.Product;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
