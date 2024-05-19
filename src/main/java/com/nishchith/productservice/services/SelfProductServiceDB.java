@@ -3,42 +3,50 @@ package com.nishchith.productservice.services;
 import com.nishchith.productservice.exceptions.ProductNotCreatedException;
 import com.nishchith.productservice.exceptions.ProductNotFoundException;
 import com.nishchith.productservice.models.Product;
+import com.nishchith.productservice.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service("selfProductServiceDB")
-public class SelfProductServiceDB implements ProductService{
+public class SelfProductServiceDB implements ProductService {
 
-    private final FakeStoreProductService fakeStoreProductService;
+    private final ProductRepository productRepository;
 
-    public SelfProductServiceDB(FakeStoreProductService fakeStoreProductService) {
-        this.fakeStoreProductService = fakeStoreProductService;
+
+    public SelfProductServiceDB(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     @Override
     public Product getProductById(Long id) throws ProductNotFoundException {
-        return fakeStoreProductService.getProductById(id);
+        this.productRepository.findById(id);
+        return null;
+//        return fakeStoreProductService.getProductById(id);
     }
 
     @Override
     public List<Product> getAllProducts() throws ProductNotFoundException {
-        return fakeStoreProductService.getAllProducts();
+        return null;
+//      return fakeStoreProductService.getAllProducts();
     }
 
     @Override
     public Product updateProduct(Long id, Product product) throws ProductNotCreatedException {
-        return fakeStoreProductService.updateProduct(id,product);
+        return null;
+//      return fakeStoreProductService.updateProduct(id,product);
     }
 
     @Override
     public Product replaceProduct(Long id, Product product) throws ProductNotCreatedException {
-        return fakeStoreProductService.replaceProduct(id,product);
+        return null;
+//      return fakeStoreProductService.replaceProduct(id,product);
     }
 
     @Override
     public Product createProduct(Product product) throws ProductNotCreatedException {
-        return fakeStoreProductService.createProduct(product);
+        return null;
+//      return fakeStoreProductService.createProduct(product);
     }
 
     @Override
