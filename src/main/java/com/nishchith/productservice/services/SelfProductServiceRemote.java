@@ -42,8 +42,8 @@ public class SelfProductServiceRemote implements ProductService{
     }
 
     @Override
-    public Product deleteProduct() {
-        return null;
+    public Product deleteProduct(Product product) {
+        return product;
     }
 
 

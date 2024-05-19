@@ -93,8 +93,8 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public Product deleteProduct() {
-        return null;
+    public Product deleteProduct(Product product) {
+        return product;
     }
 
     private FakeStoreProductDTO convertProductToFakeStoreDTOForUpdate(Product product) {

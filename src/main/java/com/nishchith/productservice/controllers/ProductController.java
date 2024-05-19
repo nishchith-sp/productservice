@@ -1,6 +1,5 @@
 package com.nishchith.productservice.controllers;
 
-import com.nishchith.productservice.dtos.ProductDTO;
 import com.nishchith.productservice.exceptions.ProductNotCreatedException;
 import com.nishchith.productservice.exceptions.ProductNotFoundException;
 import com.nishchith.productservice.models.Product;
@@ -19,7 +18,7 @@ public class ProductController {
 
     ProductService productService;
 
-    ProductController(@Qualifier("selfProductServiceRemote") ProductService productService) {
+    ProductController(@Qualifier("selfProductServiceDB") ProductService productService) {
         this.productService = productService;
     }
 
@@ -59,7 +58,7 @@ public class ProductController {
         return new ResponseEntity<>(createdProduct,HttpStatus.OK);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public  ResponseEntity<Product> removeProduct(@PathVariable Long id) {
         return null;
     }
