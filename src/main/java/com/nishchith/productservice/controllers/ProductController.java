@@ -4,6 +4,7 @@ import com.nishchith.productservice.exceptions.ProductNotCreatedException;
 import com.nishchith.productservice.exceptions.ProductNotFoundException;
 import com.nishchith.productservice.models.Product;
 import com.nishchith.productservice.services.ProductService;
+import com.nishchith.productservice.services.TokenService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +17,20 @@ import java.util.List;
 public class ProductController {
 
 
+    private final TokenService tokenService;
     ProductService productService;
 
-    ProductController(@Qualifier("selfProductServiceDB") ProductService productService) {
+    ProductController(@Qualifier("selfProductServiceRemote") ProductService productService, TokenService tokenService) {
         this.productService = productService;
+        this.tokenService = tokenService;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) throws ProductNotFoundException {
+    public ResponseEntity<Product> getProductById(@RequestHeader("token") String token, @PathVariable Long id) throws ProductNotFoundException {
+
+        if(!tokenService.validateToken(token)){
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
 
         Product product = productService.getProductById(id);
 

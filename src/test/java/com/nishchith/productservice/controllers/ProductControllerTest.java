@@ -48,7 +48,7 @@ class ProductControllerTest {
     void getProductById() throws ProductNotFoundException {
 
         //Act
-        ResponseEntity<Product> productResponseEntity = productController.getProductById(1L);
+        ResponseEntity<Product> productResponseEntity = productController.getProductById("",1L);
 
         //Assert
         assertNotNull(productResponseEntity);
