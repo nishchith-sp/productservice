@@ -26,12 +26,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@RequestHeader("token") String token, @PathVariable Long id) throws ProductNotFoundException {
-
-        if(!tokenService.validateToken(token)){
-            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-        }
-
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) throws ProductNotFoundException {
         Product product = productService.getProductById(id);
 
         return new ResponseEntity<>(product,HttpStatus.OK);
