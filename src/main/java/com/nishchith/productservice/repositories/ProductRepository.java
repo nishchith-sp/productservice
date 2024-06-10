@@ -1,6 +1,7 @@
 package com.nishchith.productservice.repositories;
 
 import com.nishchith.productservice.models.Product;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
@@ -24,4 +25,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Override
     void delete(@NonNull Product product);
+
+
+    List<Product> findByNameContaining(@NonNull String title, Pageable pageable);
 }
