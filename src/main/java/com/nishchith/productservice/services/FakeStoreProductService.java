@@ -5,6 +5,7 @@ import com.nishchith.productservice.exceptions.ProductNotCreatedException;
 import com.nishchith.productservice.exceptions.ProductNotFoundException;
 import com.nishchith.productservice.models.Category;
 import com.nishchith.productservice.models.Product;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,13 +16,21 @@ import java.util.List;
 public class FakeStoreProductService implements ProductService {
 
     private final RestTemplate restTemplate;
+    private final RedisTemplate<String,Object> redisTemplate;
 
-    public FakeStoreProductService(RestTemplate restTemplate) {
+    public FakeStoreProductService(RestTemplate restTemplate, RedisTemplate redisTemplate) {
         this.restTemplate = restTemplate;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
     public Product getProductById(Long id) throws ProductNotFoundException {
+
+        Product product = (Product) redisTemplate.opsForHash().get("PRODUCTS","PRODUCTS_"+id);
+
+        if(product != null) {
+            return product;
+        }
 
         FakeStoreProductDTO fakeStoreProductDto =
                 restTemplate.getForObject("https://fakestoreapi.com/products/" + id,
@@ -30,7 +39,9 @@ public class FakeStoreProductService implements ProductService {
         if (fakeStoreProductDto == null)
             throw new ProductNotFoundException("Sorry, product not available");
 
-        return convertFakeStoreDTOToProduct(fakeStoreProductDto);
+        product =convertFakeStoreDTOToProduct(fakeStoreProductDto);
+        redisTemplate.opsForHash().put("PRODUCTS","PRODUCTS_"+id,product);
+        return product;
     }
 
     @Override
