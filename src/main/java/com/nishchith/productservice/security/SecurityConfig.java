@@ -11,15 +11,27 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authorize -> authorize
-                                .requestMatchers("/products/{id}")
-                                .authenticated()
+
+//        http
+//                .authorizeHttpRequests(authorize -> authorize
+//                        .requestMatchers("/products").permitAll()
+//                        .authenticated()
 //                        .hasAuthority("SCOPE_ADMIN")
-                                .anyRequest().permitAll()
-                )
-                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
-        return http.build();
+//                        .anyRequest().permitAll()
+//                )
+//                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
+
+
+        return http.authorizeHttpRequests(request -> {
+                    try {
+                        request.anyRequest().permitAll()
+                                .and().cors().disable()
+                                .csrf().disable();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .build();
     }
 
 }

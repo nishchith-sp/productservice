@@ -17,7 +17,7 @@ public class ProductController {
 
     ProductService productService;
 
-    ProductController(@Qualifier("selfProductServiceDB") ProductService productService) {
+    ProductController(@Qualifier("selfProductServiceRemote") ProductService productService) {
         this.productService = productService;
     }
 
